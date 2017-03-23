@@ -1,0 +1,65 @@
+ <script type="text/javascript">
+// function LookAndSay(start, n) {
+// 	 var startString = start.toString();
+// 	 console.log(startString)
+// 	 var startLength = startString.length;
+// 	 var output = [];
+// 	 var numberCount = 1;
+// 	 var outputString = ''
+// 	 var key =''
+// 	 if(startLength>0) {
+// 	     for(var i = 0; i<startLength; i++) {
+// 	       if(i==0 || startString[i] == startString[i-1]) {
+// 	       	 console.log('where in i=0')
+// 	       	 console.log(startString[i])
+// 	       	 console.log("=>")
+// 	       	 console.log(numberCount)
+// 	       	 key = ''+startString[i]+''
+// 	         output[key] = numberCount++;
+// 	       } else {
+// 	       	 console.log('else in i=0')
+// 	       	 console.log(startString[i])
+// 	         numberCount = 1;
+// 	         console.log("=>")
+// 	       	 console.log(numberCount)
+// 	       	 key = ''+startString[i]+''
+// 	         output[key] = numberCount++;
+// 	       }
+// 	        console.log(output)
+// 	     }  
+// 	    console.log(output)
+// 	    for(var number in output) {  
+// 	    	outputString+=output[number]+number
+// 	    }
+// 	 }
+// 	 if(n>1){
+// 	 	console.log(outputString)
+// 	 	return LookAndSay(outputString,--n)
+// 	 } else {
+// 	 	console.log(outputString)
+// 	 	return outputString
+// 	 }
+// }
+// LookAndSay(11,2)
+
+// 11233455
+// 2112231425
+
+// 1222221311141215
+// function convert(insfd) {
+//  console.log(insfd.toString(7));
+//  return insfd.toString(7);
+// }
+// convert(2);
+
+
+function main(Number) {
+    // var n = parseInt(readLine());
+    // arr = readLine().split(' ');
+    var arr = Number.split(' ');
+    // arr = arr.map(Number);
+    // arr = arr.map(Number);
+    return arr = arr.reverse().join(' ');
+}
+console.log(main('1 4 3 2'))
+ </script>
