@@ -1,0 +1,111 @@
+<!-- Enter your HTML code here -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sample Title</title>
+<script>
+function showBar() {
+    this.progressQueue = [];
+    this.concurrent = 2;
+    this.runningCount = 0;
+    this.progressBarCount = 0;
+}
+
+showBar.prototype.addBar = function() {
+    var container = document.getElementById('container');
+    for(var i = 0; i < 1; i++) {
+      var attributes = {id:'progress-'+this.progressBarCount++, progress: 0}
+      var progressContainer = document.createElement('div');
+      progressContainer.className = 'bar-container';
+      var progressBar= document.createElement('div');
+      progressBar.className = 'progress';
+      progressBar.id = attributes.id;
+      progressBar.style.width = attributes.progress;
+      progressContainer.appendChild(progressBar);
+      container.appendChild(progressContainer);
+      this.progressQueue.push(attributes);
+    }
+    this.listenQueue()
+}
+showBar.prototype.listenQueue = function() {
+  var callObj
+  var current = this;
+  var callFunction = function() {
+    console.log('start function of listenQueue', current.progressQueue.length);
+    while(current.progressQueue.length>0 && current.runningCount < current.concurrent) {
+      current.runningCount++;
+      current.start(current.progressQueue.shift())
+    }
+    callObj = setTimeout(callFunction, 1000);
+    console.log('checking queue length for clear', current.progressQueue.length);
+    if(current.progressQueue.length===0) {
+      console.log('clear timeout');
+      clearTimeout(callObj);
+    }
+  }
+  callFunction();
+}
+showBar.prototype.start = function (activeBar) {
+  console.log('start function');
+  var callObj
+  var current = this
+  var bar = document.getElementById(activeBar.id)
+  var callFunction = function (activeBar) {
+    console.log('do progress', activeBar.id);
+    activeBar.progress+=10;
+    bar.style.width=activeBar.progress+'%';
+    callObj = setTimeout(callFunction.bind(null, activeBar), 100);
+    if (activeBar.progress>=100) {
+      console.log('do not run anymore', activeBar.id);
+      clearTimeout(callObj)
+      current.runningCount--;
+    }
+  }
+  callFunction(activeBar);
+}
+
+var barObject = new showBar();
+
+</script>
+<style>
+/* Add your css styles here */
+#container {
+    padding: 20px;
+    margin: 20px;
+}
+.button {
+    height: 50px;
+    padding: 20px 50px;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.bar-container {
+    width: 350px;
+    background-color:  #c2c2c2;
+    margin-bottom:10px;
+}
+.bar-container .progress {
+     background-color:  #4CAF50;
+     height: 30px;
+     width:1%;
+     max-width:100%;
+}
+</style>
+</head>
+<body>
+    <div>
+   <button id= "start" name="start" class="button" >Download</button>
+    <div id="container">   
+    </div>
+</div>
+</body>
+<script>
+document.getElementById("start").addEventListener("click", function() {
+    barObject.addBar();
+}); 
+</script>
+</html>

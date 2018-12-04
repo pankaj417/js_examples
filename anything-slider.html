@@ -1,0 +1,95 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+  <style type="text/css">
+  	#container { 
+  		background-color: #e0ebeb;
+  		border: 2px solid #c1d7d7;
+  		height: 100px;
+  	 	width: 500px;
+  	 	cursor: pointer;
+      position: relative;
+  	 }
+  	 .theThing {
+  	  height: 100%;
+      width: 100%;
+      position: absolute;
+      display: none;
+      background-color: red;
+      text-align: center;
+  	 }
+     .trigger.next {
+       right:0;
+    }
+    .trigger.previous {
+      left: 0;
+    }
+    .trigger.next, .trigger.previous {
+      top: 50%;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      background-color: black;
+      color: white;
+      size: 25px;
+      position: absolute;
+      text-align: center;
+      line-height: 40px;
+      
+    }
+  	</style>
+  </head>
+  <body>
+  <div id="container">
+  	<div class="theThing">abc</div>
+    <div class="theThing">def</div>
+    <div class="theThing">ghi</div>
+    <div class="theThing">jkl</div>
+    <div class="trigger next" id="next">></div>
+    <div class="trigger previous" id="previous"><</div>
+  </div>
+
+  <script>
+  	var container = document.querySelector('#container');
+    // console.log(document.querySelectorAll('.theThing'));
+  	var theThing = document.querySelectorAll('.theThing');
+    var i = 0;
+    console.log(theThing.length)
+    function action(e)  {
+      console.log(e);
+      if(e.target.id === 'previous' || e.keyCode == '37') {
+        doAction('previous')
+      } else if(e.target.id === 'next' || e.keyCode == '39'){
+         doAction('next')
+      }
+    }
+    function doAction(type) {
+      if(type === 'previous') {
+        if(i===0) {
+          i=theThing.length;
+        }
+        i--;
+      } else {
+        if(i===theThing.length-1) {
+          i=-1;
+        }
+        i++;
+      }
+      for(var key of theThing) {
+        key.style.display= 'none';
+      }
+      theThing[i].style.display= "block";
+    }
+    next.addEventListener("click", action ,false);
+    previous.addEventListener("click", action ,false);
+    var next = document.querySelector('#next')
+    var previous = document.querySelector('#previous')
+    document.onkeydown = action;
+  	next.addEventListener("click", action ,false);
+    previous.addEventListener("click", action ,false);
+    theThing[i].style.display= "block";
+
+  </script>	
+  </body>
+</html>

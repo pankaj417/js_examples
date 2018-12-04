@@ -1,0 +1,137 @@
+<html>
+<head>
+  <style>
+  .main {
+    padding: 100px;
+  }
+  .element-container {
+   position: relative;
+  }
+  .select .option-container {
+    background-color:#FFFFFF;
+    box-shadow: 1px 1px 10px #888888;
+    cursor: pointer;
+    position:absolute;
+    top:0;
+    min-width:150px;
+    border-radius: 3px;
+    z-index: 4;
+  }
+  .select .option-container div {
+    padding: 20px ;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .select .option-container div:hover {
+    background-color: #ededed;
+  }
+  .select .selected {
+    color: #cc0087;
+  }
+  .select-box {
+    width: 100px;
+    border-bottom: 1px solid #d8d8d8;
+    font-size: 20px;
+    line-height: 40px;
+     cursor: pointer;
+  }
+  .element .modern {
+    display:none;
+  }
+  </style>
+  <script>
+    function selectClass(options, selectElementId, selectElementName,
+    placeHolderId) {
+      this.id = selectElementId; // id of the core selectbox 
+      this.name = selectElementName; // name of the core selectbox 
+      this.placeHolderId = placeHolderId; // place holder ID where we want to display textbox
+      this.selectedValue = 0; // By default setting first value as selected
+      this.options = options;
+      this.optionBoxOpen = false; // false  or true
+      this.elementBoxId = selectElementId+'-element-box-id'; // hidden select will be placed
+      this.dummyElementBoxId = selectElementId+'-dummy-element-box-id'; // hidden select will be placed
+      this.optionsBoxId = selectElementId+'-options-box-id'; // hidden select will be placed
+      document.getElementById(this.placeHolderId).innerHTML = '<div class="element-container">'+
+        '<div class="element" id="'+this.elementBoxId+'"></div>'+
+        '<div class="selected-element" id="'+this.dummyElementBoxId+'"></div>'+
+        '<div class="select" id="'+this.optionsBoxId+'"></div>'+
+      '</div>';
+    }
+    selectClass.prototype.getElement =  function() {
+         var selectElement = '<div class="select-box" id="click-'+this.dummyElementBoxId+'">'+
+         this.options[this.selectedValue]+
+         '</div>'
+         document.getElementById(this.dummyElementBoxId).innerHTML = selectElement;
+         var el = document.getElementById("click-"+this.dummyElementBoxId);
+         el.addEventListener("click", this.handleOpen.bind(this), false);
+         this.selectBox();
+    }
+    selectClass.prototype.selectBox = function() {
+     var myClass=this;
+     var realElement = '<select class="modern" id="'+this.id+'" name="'+this.name+'" >';
+     var optionHtml = '<div class="option-container">';
+      for (var i=0; i < this.options.length; i++) {
+        var selectedClass = '';
+        if(this.selectedValue === i) {
+          selectedClass = 'selected';
+        }
+        optionHtml+= '<div id="option-'+i+'" class="'+selectedClass+'">'+ this.options[i]+
+       '</div>';
+       realElement+='<option '+selectedClass+'>'+this.options[i]+'</option>';
+      }
+      realElement += '</select>';
+      optionHtml+= '</div>'
+      document.getElementById(this.elementBoxId).innerHTML = realElement;
+      if(this.optionBoxOpen) {
+        document.getElementById(this.optionsBoxId).innerHTML = optionHtml;
+        for (var i=0; i < this.options.length; i++) {
+          var el = document.getElementById('option-'+i);
+          el.addEventListener("click", this.handleSelect.bind(this, i), false);
+        }
+      } else {
+        document.getElementById(this.optionsBoxId).innerHTML = '';
+      } 
+    }
+    selectClass.prototype.handleOpen = function() {
+      this.optionBoxOpen = true;
+      this.selectBox();
+    }
+
+    selectClass.prototype.handleSelect = function(i) {
+     this.selectedValue = i;
+     this.getElement();
+     this.optionBoxOpen = false;
+     this.selectBox();
+    }
+  </script>
+</head>
+<body>
+  <div class="main">
+    <div id='select-box-1'>
+    </div>
+    <div id='select-box-2'>
+    </div>
+  </div>
+</body>
+  <script>
+    var options = [
+      'State 1',
+      'State 2',
+      'State 3',
+      'State 4'
+    ]
+    var select1 = new selectClass(options, 'select-1', 'state', 'select-box-1');
+    select1.getElement();
+
+    options = [
+      'Company 1',
+      'Company 2',
+      'Company 3',
+      'Company 4',
+      'Company 5'
+    ]
+    var select2 = new selectClass(options, 'company-1', 'company', 'select-box-2');
+    select2.getElement();
+
+  </script>
+</html>

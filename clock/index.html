@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Clock Title</title>
+<style type="text/css">
+	html, body, .container {
+		height: 100%;
+	}
+	.container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.clock {
+		height: 400px;
+		width: 400px;
+		background: url(clock.png);
+		position: relative;
+	}
+	.clock:after {
+		content: '';
+		position: absolute;
+		background: #111111;
+		height: 30px;
+		width: 30px;
+		border-radius: 50%;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%)  translateY(-50%);
+	}
+	.hand {
+		height: 400px;
+		width: 400px;
+		position: absolute;
+	}
+/*	.second_hand {
+		transform: rotate(30deg);
+	}*/
+	.hour_hand:after, .minute_hand:after, .second_hand:after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		background: #111111;
+	}
+	.hour_hand:after {
+		height: 120px;
+		width: 10px;
+		top: 80px;
+	}
+	.minute_hand:after {
+		height: 150px;
+		width: 7px;
+		top: 50px;
+	}
+	.second_hand:after {
+		background: red;
+		height: 170px;
+		width: 3px;
+		top: 30px;
+	}
+</style>
+</head>
+<body>
+    <div class="container">
+    	<div class="clock">
+    		<div id="hour_hand" class="hand hour_hand"></div>
+    		<div id="minute_hand" class="hand minute_hand"></div>
+    		<div id="second_hand" class="hand second_hand"></div>
+    	</div>
+    </div>
+</body>
+<script type="text/javascript">
+	
+var hour_hand = document.querySelector('#hour_hand');
+var minute_hand = document.querySelector('#minute_hand');
+var second_hand = document.querySelector('#second_hand');
+function initClock() {
+	console.log('initClock');
+	var date = new Date();
+	var hour = date.getHours() % 12; // 0 - 23
+	var minute = date.getMinutes();
+	var second = date.getSeconds();
+
+	var hourDeg = (hour * 30) + (0.5 * minute) ; // 360 / 12 + 30 / 60
+	var minuteDeg = (minute * 6) + (0.1 * second); // 360 / 60 + 6 / 60 
+	var secondDeg = second * 6; // 360 / 60
+
+	hour_hand.style.transform= 'rotate('+ hourDeg + 'deg)';
+	minute_hand.style.transform= 'rotate('+ minuteDeg + 'deg)';
+	second_hand.style.transform= 'rotate('+ secondDeg + 'deg)';
+	setTimeout(initClock, 1000);
+}
+initClock();
+</script>
+</html>

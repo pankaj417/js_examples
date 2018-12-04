@@ -1,0 +1,148 @@
+
+
+<html>
+<head>
+    <title>Demo - Covnert JSON to CSV</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="https://github.com/douglascrockford/JSON-js/raw/master/json2.js"></script>
+    <script type="text/javascript" src="templist.js"></script>
+    <script>
+
+	 console.log(tempList.length);
+	</script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    // $(document).ready(function () {
+    //     function orStats() {
+    //         var current = this
+    //         var totalSignUp = 'Loading...'
+    //         document.getElementById('sign-up-count').innerHTML = totalSignUp
+    //         current.getPoplarSignUpCount = () => {
+    //             $.ajax({
+    //               method: "POST",
+    //               url: 'https://www.sfasfafasdfdas.co/graphql',
+    //               data: JSON.stringify({ "query": " { getPoplarSignUpCount { count } } " }),
+    //               contentType: 'application/json'
+    //             }).done(function(response) {
+    //               if (response.data && response.data.getPoplarSignUpCount && response.data.getPoplarSignUpCount.count) {
+    //                 var totalSignUp = response.data.getPoplarSignUpCount.count
+    //               }
+    //               document.getElementById('sign-up-count').innerHTML = totalSignUp + 1645;
+    //               setTimeout(function() {current.getPoplarSignUpCount()}, 5000);
+    //             });
+    //         }
+    //     }
+    //     var orStatsObj = new orStats();
+    //     orStatsObj.getPoplarSignUpCount();
+    // })
+    </script>
+    <script type="text/javascript">
+
+//         fetch("http://localhost:3000/graphql", {
+//         method: "POST",
+//         credentials: "same-origin",
+//         headers: {
+//           "Accept": "application/json",
+//           'Content-Type': 'application/json'
+//         },
+//         body:JSON.stringify({ "query": " { getPoplarSignUpCount { count } } " })
+//       })
+
+//         function getCookie(name) {
+//     var cookieValue = null;
+//     if (document.cookie && document.cookie !== '') {
+//         var cookies = document.cookie.split(';');
+//         for (var i = 0; i < cookies.length; i++) {
+//             var cookie = jQuery.trim(cookies[i]);
+//             // Does this cookie string begin with the name we want?
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// }
+        // JSON to CSV Converter
+        function table(objArray) {
+            var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+            var output = '<table>'
+            var unq = {}
+             for (var i = 0; i < array.length; i++) {
+             	// if(typeof array[i].body === 'undefined' || typeof array[i].body.ssn === 'undefined' || array[i].body.ssn=='') {
+             	// 	continue
+             	// }
+                var duplicate = ''
+                // if(unq[array[i].body.userId]) {
+                // 	duplicate = 'True'
+                // 	continue
+                // } else {
+                // 	duplicate = 'False'
+                // 	unq[array[i].body.userId] = true;
+                // }
+            	output+= '<tr>'+
+                '<td>'+array[i].email+'</td>'+
+                '<td>'+array[i].firstName+'</td>'+
+                '<td>'+ array[i].phone+'</td>'+
+                '<td>'+ array[i].address+'</td>'+
+                '<td>'+ array[i].authedAmount+'</td>'+
+                '<td>'+ array[i].autoChargeAmountDue+'</td>'
+                
+                '</tr>'
+             }
+             return output+"</table>";
+
+        }
+        function ConvertToCSV(objArray) {
+            var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+            var str = '';
+
+            for (var i = 0; i < array.length; i++) {
+                var line = '';
+                for (var index in array[i]) {
+                    if (line != '') line += ','
+
+                    line += array[i][index];
+                }
+
+                str += line + '\r\n';
+            }
+
+            return str;
+        }
+
+        // // Example
+        $(document).ready(function () {
+
+            // Create Object
+            // var items = [
+            //       { name: "Item 1", color: "Green", size: "X-Large" },
+            //       { name: "Item 2", color: "Green", size: "X-Large" },
+            //       { name: "Item 3", color: "Green", size: "X-Large" }];
+
+            // Convert Object to JSON
+            // var jsonObject = JSON.stringify(allOwners);
+
+            // Display JSON
+            // $('#json').text(jsonObject);
+
+            // Convert JSON to CSV & Display CSV
+            $('#table1').html(table(tempList));
+            // $('#csv').text(ConvertToCSV(jsonObject));
+        });
+    </script>
+</head>
+<body>
+<span id="sign-up-count"></span>
+
+<!--     <h1>
+        JSON</h1>
+    <pre id="json"></pre>
+    <h1>
+        CSV</h1>
+    <pre id="csv"></pre> -->
+    <table id="table1" border="1"></table>
+</body>

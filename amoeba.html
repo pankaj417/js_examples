@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+    // For this problem I decided to use Tree data structure
+
+    // call this whenever we need to insert a new node
+    // Node has 2 keys node's value and it's childs
+    function node(value) {
+      this.value = value;
+      this.child = [];
+    }
+
+    // we need 2 class variables   
+    function tree () {
+      // to track how many amodbas are present
+      this._numberOfMembers = 0;
+      // root of the tree
+      this.root = null;
+    }
+    tree.prototype.populationGrowth = function (simulationLength) {
+      // 1st use-case: when simulationLength is less than 0 than we will return 0
+      if (simulationLength < 0) {
+        return 0;
+      }
+
+      // creating first node which will be the root of the tree
+      var firstNode = new node('a');
+      this.root = firstNode;
+      // incrementing member count
+      this._numberOfMembers+=1;
+
+
+      var current = {};
+      // Decided to use queue Data structure for visit each node of the tree.
+      var queue = [];
+      // running loop equals to number of years simulationLength
+      for (var i=0; i<simulationLength; i++) {
+        queue = [];
+        queue.push(this.root);
+        // Runing the while loop till the time queue has any node
+        while(queue.length>0) {
+          // getting 1st node from the key and setting it as current
+          current = queue.shift();
+          // checking if node has any key
+          if(current.child.length>0) {
+            // if yes then add each child node in queue
+            for(var j = 0; j<current.child.length; j++) {
+              queue.push(current.child[j]);
+            }
+          }
+          // checking if current node's value is a(child) if yes then convert it to adult
+          if(current && current.value==='a') {
+            current.value = 'A';
+          } // if current node's value is A(adult) if yes then add a new child of it
+          else if(current && current.value === 'A') {
+            var node1 = new node('a');
+            current.child.push(node1);
+            // incrementing member count
+            this._numberOfMembers+=1;
+          }
+        }
+      }
+      // can see all the nodes in the tree
+      console.log(this.root)
+      // return number of amoebas
+      return this._numberOfMembers;
+		}
+    var amoeba1 = new tree();
+		console.log(amoeba1.populationGrowth(4));
+	</script>
+  </head>
+  <body>
+  </body>
+</hmtl>

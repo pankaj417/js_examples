@@ -1,0 +1,116 @@
+<script>
+function showBar() {
+    this.listOfBars = [];
+}
+
+showBar.prototype.addBar = function() {
+    // console.log(this.listOfBars.length)
+    var state = 'pause'
+    var width = 0
+    if (this.listOfBars.length<3) {
+        state='progress'
+        width=20
+    }
+    this.listOfBars.push({id:'progress-'+this.listOfBars.length, state:state, progress: width });
+    this.generateList();
+}
+
+showBar.prototype.updateState = function (i) {
+    if (this.listOfBars[i].state === 'progress') {
+        if(this.listOfBars[i].progress<100) {
+            this.listOfBars[i].progress = this.listOfBars[i].progress+20;
+        } else {
+            this.listOfBars[i].progress = 100;
+            this.listOfBars[i].state = 'completed';
+        }
+    } 
+    this.addNext()
+}
+showBar.prototype.addNext = function() {
+    var current = this;
+    var activeList = this.listOfBars.filter(function(bar, i) {
+       return bar.state === 'progress'
+    });
+    if(activeList.length<3) {
+        for(var loop=0; loop<3-activeList.length; loop++) {
+            this.listOfBars.find(function(bar, i) {
+            if(bar.state === 'pause') {
+                current.listOfBars[i].state = 'progress'
+                return true;
+            }
+            })
+        }
+    }
+    this.generateList();
+}
+showBar.prototype.generateList = function() {
+    var element =''
+    var cssClass = ''
+    var current = this
+    for (var i=0; i<this.listOfBars.length; i++) {
+        //console.log(this.listOfBars[i])
+        cssClass = (this.listOfBars[i].state == 'progress' || this.listOfBars[i].state == 'completed') ? 'active' : ''
+         element+= '<div id="'+this.listOfBars[i].id+'" class="bar-container "><div class="'+cssClass+'" style="width:'+this.listOfBars[i].progress+'%"></div></div>';
+        if(this.listOfBars[i].progress<100) {
+            this.throttle(i)
+        }
+    }
+    document.getElementById('container').innerHTML = element; 
+}
+
+showBar.prototype.throttle = function(i) {
+    var current = this
+    setTimeout(function () {
+       current.updateState(i)
+    }, 1500);
+}
+var barObject = new showBar();
+
+</script>
+
+<!-- Enter your HTML code here -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sample Title</title>
+</head>
+<body>
+    <div>
+        <button name="start" class="button" onclick="barObject.addBar();">Download</button>
+    </div>
+    <div id="container">
+        
+    </div>
+</body>
+</html>
+
+<style>
+/* Add your css styles here */
+#container {
+    padding: 40px;
+    margin: 50px;
+}
+.button {
+    height: 50px;
+    padding: 20px 50px;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.bar-container {
+    width: 350px;
+    background-color:  #c2c2c2;
+    margin-bottom:10px;
+    height: 5px;
+    position: relative;
+}
+.bar-container .active {
+     border-top: 5px solid #4CAF50;
+     height: 5px;
+     position: absolute;
+     top: 0;
+}
+</style>

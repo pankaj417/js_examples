@@ -1,0 +1,48 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+  <style type="text/css">
+  	#container { 
+  		background-color: #e0ebeb;
+  		border: 2px solid #c1d7d7;
+  		height: 500px;
+  	 	width: 500px;
+  	 	cursor: pointer;
+  	 	overflow: hidden;
+  	 }
+  	 #theThing {
+  	 	background-color: yellow;
+  	 	border-radius: 50%;
+  	 	height: 100px;
+  	 	width: 100px;
+  	 	transform: translate3d(50px, 50px, 0);
+  	 	/*transition: transform .3s linear;*/
+  	 	transition: transform .3s cubic-bezier(0, .64, .52, .24);
+  	 }
+  	</style>
+  </head>
+  <body>
+  <div id="container">
+  	<div id="theThing">
+  	</div>
+  </div>
+
+  <script>
+  	var container = document.querySelector('#container');
+  	var theThing = document.querySelector('#theThing');
+  	console.log(container)
+  	console.log(theThing.offsetWidth)
+  	console.log(theThing.offsetHeight)
+  	function moveMe(e) {
+  		console.log(e);
+  		var xPos = e.clientX-(theThing.offsetWidth/2);
+  		var yPos = e.clientY-(theThing.offsetWidth/2);
+  		var translate3dValue = "translate3d("+xPos+"px, "+yPos+"px, 0)";
+  		theThing.style.transform = translate3dValue;
+  	}
+  	container.addEventListener("click", moveMe ,false)
+  </script>
+  	
+  </body>
+</html>

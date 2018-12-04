@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link href="style.css" rel="stylesheet" type="text/css"/> 
+	<script type="text/javascript">
+	console.log(this)
+		function node(data) {
+			this.data = data
+			this.next = null
+		}
+		function linkedList() {
+			this.head = null
+			this._length = 0
+		}
+
+		linkedList.prototype.append = function(data) {
+			var node1 = new node(data)
+			var currentNode = this.head
+			if (!currentNode) {
+				this.head = node1
+				this._length++
+				return node1
+			}
+			while(currentNode.next) {
+			 	currentNode = currentNode.next
+			}
+
+			currentNode.next = node1
+			this._length++
+			return node1
+
+		}
+
+		linkedList.prototype.prepend = function(data) {
+			var node1 = new node(data)
+			var currentNode = this.head
+			node1.next = this.head
+			this.head = node1
+			this._length++
+		}
+		var list1 = new linkedList()
+		list1.append(1)
+		list1.append(2)
+		list1.append(3)
+		list1.prepend(4)
+
+		console.log(list1)
+	</script>
+  </head>
+</html>
